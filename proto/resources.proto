@@ -3,7 +3,6 @@ syntax = "proto3";
 package api_pb;
 
 option java_multiple_files = true;
-
 option java_package = "dilettante.minter.node.grpc.client";
 
 import "google/protobuf/struct.proto";
@@ -985,7 +984,3 @@ message WaitListResponse {
     }
     repeated Wait list = 1;
 }
-
-
-
-

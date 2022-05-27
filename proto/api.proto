@@ -3,7 +3,6 @@ syntax = "proto3";
 package api_pb;
 
 option java_multiple_files = true;
-
 option java_package = "dilettante.minter.node.grpc.client";
 
 import "google/protobuf/empty.proto";
@@ -123,7 +122,6 @@ service ApiService {
     // Blocks returns blocks at given interval.
     rpc Blocks (BlocksRequest) returns (BlocksResponse) {}
 
-
     // LimitOrder returns order by ID.
     rpc LimitOrder (LimitOrderRequest) returns (LimitOrderResponse) {}
 
@@ -136,6 +134,3 @@ service ApiService {
     // BestTrade returns optimal exchange route.
     rpc BestTrade (BestTradeRequest) returns (BestTradeResponse) {}
 }
-
-
-

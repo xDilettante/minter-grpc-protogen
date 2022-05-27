@@ -3,7 +3,6 @@ syntax = "proto3";
 package api_pb;
 
 option java_multiple_files = true;
-
 option java_package = "dilettante.minter.node.grpc.client";
 
 message JailEvent {
