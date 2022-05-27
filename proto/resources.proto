@@ -1,0 +1,991 @@
+syntax = "proto3";
+
+package api_pb;
+
+option java_multiple_files = true;
+
+option java_package = "dilettante.minter.node.grpc.client";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/wrappers.proto";
+
+message Coin {
+    uint64 id = 1;
+    string symbol = 2;
+}
+
+message BestTradeRequest {
+    uint64 sell_coin = 1;
+    uint64 buy_coin = 2;
+    string amount = 3;
+    enum Type {
+        input = 0;
+        output = 1;
+    }
+    Type type = 4;
+    uint64 height = 5;
+    int32 max_depth = 6;
+}
+
+message BestTradeResponse {
+    repeated uint64 path = 1;
+    string result = 2;
+}
+
+message BlocksRequest {
+    uint64 from_height = 1;
+    uint64 to_height = 2;
+    repeated BlockField fields = 3;
+    bool failed_txs = 4;
+    bool events = 5;
+}
+
+message BlocksResponse {
+    repeated BlockResponse blocks = 1;
+}
+
+message CommissionVotesRequest {
+    uint64 target_version = 1;
+    uint64 height = 2;
+}
+
+message CommissionVotesResponse {
+    message Vote {
+        PriceCommissionResponse price = 2;
+        repeated string public_keys = 1;
+    }
+    repeated Vote votes = 1;
+}
+
+message LimitOrderRequest {
+    uint64 order_id = 1;
+    uint64 height = 2;
+}
+message LimitOrderResponse {
+    uint64 id = 7;
+    Coin coin_sell = 1;
+    Coin coin_buy = 2;
+    string want_sell = 3;
+    string want_buy = 4;
+    string price = 8;
+    string owner = 5;
+    uint64 height = 6;
+}
+
+message LimitOrdersOfPoolRequest {
+    uint64 sell_coin = 1;
+    uint64 buy_coin = 2;
+    int32 limit = 3;
+    uint64 height = 4;
+}
+message LimitOrdersOfPoolResponse {
+    string pool_price = 2;
+    repeated LimitOrderResponse orders = 1;
+}
+
+
+message LimitOrdersRequest {
+    repeated uint64 ids = 1;
+    uint64 height = 2;
+}
+message LimitOrdersResponse {
+    repeated LimitOrderResponse orders = 1;
+}
+
+message UpdateVotesRequest {
+    uint64 target_version = 1;
+    uint64 height = 2;
+}
+
+message UpdateVotesResponse {
+    message Vote {
+        string version = 2;
+        repeated string public_keys = 1;
+    }
+    repeated Vote votes = 1;
+}
+
+message VersionNetworkRequest {
+}
+
+message VersionNetworkResponse {
+    string current = 1;
+    message Version {
+        string name = 1;
+        uint64 height = 2;
+    }
+    repeated Version versions = 3;
+}
+
+message PriceCommissionRequest {
+    uint64 height = 1;
+}
+message PriceCommissionResponse {
+    Coin coin = 3;
+    string payload_byte = 4;
+    string send = 5;
+    string buy_bancor = 38;
+    string sell_bancor = 39;
+    string sell_all_bancor = 40;
+    string buy_pool_base = 41;
+    string buy_pool_delta = 53;
+    string sell_pool_base = 42;
+    string sell_pool_delta = 54;
+    string sell_all_pool_base = 43;
+    string sell_all_pool_delta = 55;
+    string create_ticker3 = 7;
+    string create_ticker4 = 8;
+    string create_ticker5 = 9;
+    string create_ticker6 = 10;
+    string create_ticker7_10 = 11;
+    string create_coin = 34;
+    string create_token = 35;
+    string recreate_coin = 36;
+    string recreate_token = 37;
+    string declare_candidacy = 13;
+    string delegate = 14;
+    string unbond = 15;
+    string redeem_check = 16;
+    string set_candidate_on = 44;
+    string set_candidate_off = 45;
+    string create_multisig = 18;
+    string multisend_base = 51;
+    string multisend_delta = 52;
+    string edit_candidate = 20;
+    string set_halt_block = 21;
+    string edit_ticker_owner = 22;
+    string edit_multisig = 23;
+    string edit_candidate_public_key = 25;
+    string create_swap_pool = 48;
+    string add_liquidity = 49;
+    string remove_liquidity = 50;
+    string edit_candidate_commission = 28;
+    string mint_token = 46;
+    string burn_token = 47;
+    string vote_commission = 31;
+    string vote_update = 32;
+    string failed_tx = 56;
+    string add_limit_order = 57;
+    string remove_limit_order = 58;
+    string move_stake = 59;
+    string lock_stake = 60;
+    string lock = 61;
+}
+
+
+message SwapPoolsRequest {
+    uint64 height = 1;
+    bool orders = 2;
+}
+message SwapPoolsResponse {
+    message SwapPool {
+        uint64 id = 5;
+        string price = 4;
+        uint64 coin0 = 6;
+        uint64 coin1 = 7;
+        string amount0 = 1;
+        string amount1 = 2;
+        string liquidity = 3;
+        message LimitOrder {
+            uint64 id = 7;
+            string want_sell = 3;
+            string want_buy = 4;
+            string price = 8;
+            string owner = 5;
+            uint64 height = 6;
+        }
+        repeated LimitOrder orders_sell = 8;
+        repeated LimitOrder orders_buy = 9;
+    }
+    repeated SwapPool pools = 1;
+}
+
+message SwapPoolRequest {
+    uint64 coin0 = 1;
+    uint64 coin1 = 2;
+    uint64 height = 4;
+}
+message SwapPoolResponse {
+    uint64 id = 5;
+    string price = 4;
+    string amount0 = 1;
+    string amount1 = 2;
+    string liquidity = 3;
+}
+message SwapPoolProviderRequest {
+    uint64 coin0 = 1;
+    uint64 coin1 = 2;
+    string provider = 3;
+    uint64 height = 4;
+}
+
+message NodeInfo {
+    message ProtocolVersion {
+        uint64 p2p = 3;
+        uint64 block = 1;
+        uint64 app = 2;
+    }
+    ProtocolVersion protocol_version = 8;
+    string id = 1;
+    string listen_addr = 2;
+    string network = 3;
+    string version = 4;
+    string channels = 5;
+    string moniker = 6;
+    message Other {
+        string tx_index = 2;
+        string rpc_address = 1;
+    }
+    Other other = 7;
+}
+message NetInfoResponse {
+    bool listening = 4;
+    repeated string listeners = 1;
+    int64 count_peers = 2;
+    message Peer {
+        // Unknown while client is in fast_syncing mode
+        google.protobuf.UInt64Value latest_block_height = 5;
+        NodeInfo node_info = 4;
+        bool is_outbound = 1;
+        message ConnectionStatus {
+            uint64 duration = 4;
+            message Monitor {
+                bool active = 13;
+                string start = 1;
+                int64 duration = 2;
+                int64 idle = 3;
+                int64 bytes = 4;
+                int64 samples = 5;
+                int64 inst_rate = 6;
+                int64 cur_rate = 7;
+                int64 avg_rate = 8;
+                int64 peak_rate = 9;
+                int64 bytes_rem = 10;
+                int64 time_rem = 11;
+                uint64 progress = 12;
+            }
+            Monitor SendMonitor = 1;
+            Monitor RecvMonitor = 2;
+            message Channel {
+                int64 id = 5;
+                int64 send_queue_capacity = 1;
+                int64 send_queue_size = 2;
+                int64 priority = 3;
+                int64 recently_sent = 4;
+            }
+            repeated Channel channels = 3;
+        }
+        ConnectionStatus connection_status = 2;
+        string remote_ip = 3;
+    }
+    repeated Peer peers = 3;
+}
+
+message StatusResponse {
+    string version = 8;
+    string network = 11;
+    uint64 initial_height = 12;
+    string latest_block_hash = 1;
+    string latest_app_hash = 2;
+    uint64 latest_block_height = 3;
+    string latest_block_time = 4;
+    uint64 keep_last_states = 5;
+    string total_slashed = 10;
+    string current_emission = 14;
+    bool catching_up = 6;
+    string public_key = 7;
+    string node_id = 9;
+    string moniker = 13;
+}
+message GenesisResponse {
+    string genesis_time = 1;
+    string chain_id = 2;
+    uint64 initial_height = 6;
+    message ConsensusParams {
+        message Block {
+            int64 max_bytes = 1;
+            int64 max_gas = 2;
+            int64 time_iota_ms = 3;
+        }
+        Block block = 1;
+        message Evidence {
+            int64 max_age_num_blocks = 1;
+            int64 max_age_duration = 2;
+        }
+        Evidence evidence = 2;
+        message Validator {
+            repeated string pub_key_types = 1;
+        }
+        Validator validator = 3;
+
+        message Version {
+            uint64 app_version = 1;
+        }
+        Version version = 4;
+    }
+    ConsensusParams consensus_params = 3;
+    string app_hash = 4;
+    message AppState {
+        string version = 19;
+        string note = 10;
+        message Validators {
+            string total_bip_stake = 4;
+            string public_key = 1;
+            string accum_reward = 2;
+            string absent_times = 3;
+        }
+        repeated Validators validators = 2;
+
+        message Candidate {
+            uint64 id = 10;
+            string reward_address = 1;
+            string owner_address = 2;
+            string control_address = 3;
+            string total_bip_stake = 4;
+            string public_key = 5;
+            uint64 commission = 6;
+
+            message Stake {
+                string owner = 4;
+                uint64 coin = 1;
+                string value = 2;
+                string bip_value = 3;
+            }
+            repeated Stake stakes = 7;
+            repeated Stake updates = 8;
+            int64 status = 9;
+            int64 jailed_until = 11;
+            int64 last_edit_commission_height = 12;
+        }
+
+        repeated Candidate candidates = 3;
+
+        message DeletedCandidate {
+            uint64 id = 1;
+            string public_key = 2;
+        }
+        repeated DeletedCandidate deleted_candidates = 20;
+
+        message Coin {
+            uint64 id = 9;
+            string name = 1;
+            string symbol = 2;
+            string volume = 3;
+            uint64 crr = 4;
+            string reserve = 5;
+            string max_supply = 6;
+            uint64 version = 7;
+            google.protobuf.StringValue owner_address = 8;
+            bool mintable = 10;
+            bool burnable = 11;
+        }
+        repeated Coin coins = 5;
+
+        message FrozenFund {
+            uint64 height = 5;
+            string address = 1;
+            google.protobuf.StringValue candidate_key = 2;
+            uint64 candidate_id = 6;
+            uint64 coin = 3;
+            string value = 4;
+            google.protobuf.StringValue to_candidate_key = 7;
+        }
+        repeated FrozenFund frozen_funds = 6;
+
+        repeated string block_list_candidates = 18;
+
+        message Waitlist {
+            uint64 candidate_id = 1;
+            string owner = 2;
+            uint64 coin = 3;
+            string value = 4;
+        }
+        repeated Waitlist waitlist = 13;
+
+        message Account {
+            string address = 1;
+            message Balance {
+                uint64 coin = 1;
+                string value = 2;
+            }
+            repeated Balance balance = 2;
+            uint64 nonce = 3;
+            message MultisigData {
+                uint64 threshold = 1;
+                repeated uint64 weights = 2;
+                repeated string addresses = 3;
+            }
+            MultisigData multisig_data = 4;
+            uint64 lock_stake_until_block = 5;
+        }
+        repeated Account accounts = 14;
+
+        message HaltBlock {
+            uint64 height = 1;
+            string candidate_key = 2;
+        }
+        repeated HaltBlock halt_blocks = 12;
+
+        message Pool {
+            uint64 coin0 = 1;
+            uint64 coin1 = 2;
+            string reserve0 = 3;
+            string reserve1 = 4;
+            uint64 id = 5;
+            message Order {
+                bool is_sale = 1;
+                string volume0 = 2; // buy
+                string volume1 = 3; // sell
+                uint64 id = 4;
+                string owner = 5;
+                uint64 height = 6;
+            }
+            repeated Order orders = 6;
+        }
+        repeated Pool pools = 15;
+        uint64 next_order_id = 21;
+        message Commission {
+            uint64 coin = 3;
+            string payload_byte = 4;
+            string send = 5;
+            string buy_bancor = 38;
+            string sell_bancor = 39;
+            string sell_all_bancor = 40;
+            string buy_pool_base = 41;
+            string buy_pool_delta = 53;
+            string sell_pool_base = 42;
+            string sell_pool_delta = 54;
+            string sell_all_pool_base = 43;
+            string sell_all_pool_delta = 55;
+            string create_ticker3 = 7;
+            string create_ticker4 = 8;
+            string create_ticker5 = 9;
+            string create_ticker6 = 10;
+            string create_ticker7_10 = 11;
+            string create_coin = 34;
+            string create_token = 35;
+            string recreate_coin = 36;
+            string recreate_token = 37;
+            string declare_candidacy = 13;
+            string delegate = 14;
+            string unbond = 15;
+            string redeem_check = 16;
+            string set_candidate_on = 44;
+            string set_candidate_off = 45;
+            string create_multisig = 18;
+            string multisend_base = 51;
+            string multisend_delta = 52;
+            string edit_candidate = 20;
+            string set_halt_block = 21;
+            string edit_ticker_owner = 22;
+            string edit_multisig = 23;
+            string edit_candidate_public_key = 25;
+            string create_swap_pool = 48;
+            string add_liquidity = 49;
+            string remove_liquidity = 50;
+            string edit_candidate_commission = 28;
+            string mint_token = 46;
+            string burn_token = 47;
+            string vote_commission = 31;
+            string vote_update = 32;
+            string failed_tx = 56;
+            string add_limit_order = 57;
+            string remove_limit_order = 58;
+            string move_stake = 59;
+            string lock_stake = 60;
+            string lock = 61;
+        }
+        Commission commission = 16;
+
+        message CommissionVote {
+            uint64 height = 1;
+            repeated string votes = 2;
+            Commission commission = 3;
+        }
+        repeated CommissionVote commission_votes = 17;
+
+        message UpdateVote {
+            uint64 height = 1;
+            repeated string votes = 2;
+            string version = 3;
+        }
+        repeated UpdateVote update_votes = 22;
+
+        repeated string used_checks = 11;
+        uint64 max_gas = 7;
+        string total_slashed = 8;
+
+        message Version {
+            uint64 height = 1;
+            string name = 2;
+        }
+        repeated Version versions = 23;
+
+        string emission = 24;
+
+        message RewardPrice  {
+            uint64 time = 1;
+            string amount_bip = 2;
+            string amount_usdt = 3;
+            bool   off = 4;
+            string reward = 5;
+        }
+        RewardPrice prev_reward = 25;
+    }
+    AppState app_state = 5;
+}
+
+message MinGasPriceResponse {
+    uint64 min_gas_price = 3;
+}
+
+enum BlockField {
+    transactions = 0;
+    missed = 1;
+    block_reward = 2;
+    size = 3;
+    proposer = 4;
+    validators = 5;
+    evidence = 6;
+}
+message BlockRequest {
+    uint64 height = 1;
+    repeated BlockField fields = 2;
+    bool failed_txs = 3;
+    bool events = 4;
+}
+message BlockResponse {
+    string hash = 1;
+    uint64 height = 2;
+    string time = 3;
+    uint64 transaction_count = 4;
+
+    repeated TransactionResponse transactions = 6;
+
+    google.protobuf.StringValue block_reward = 15;
+    google.protobuf.StringValue locked_stake_rewards = 16;
+    uint64 size = 8;
+    string proposer = 9;
+    message Validator {
+        string public_key = 1;
+        bool signed = 2;
+    }
+    repeated Validator validators = 10;
+    message Evidence {
+        repeated google.protobuf.Struct evidence = 1;
+    }
+    Evidence evidence = 13;
+    repeated string missed = 12;
+    repeated google.protobuf.Any events = 14;
+}
+
+message MaxGasPriceRequest {
+    uint64 height = 1;
+}
+message MaxGasPriceResponse {
+    uint64 max_gas_price = 3;
+}
+
+message AddressRequest {
+    string address = 1;
+    uint64 height = 2;
+    bool delegated = 4;
+}
+message AddressBalance {
+    Coin coin = 1;
+    string value = 2;
+    string bip_value = 3;
+}
+message AddressDelegatedBalance {
+    Coin coin = 1;
+    string value = 2;
+    string bip_value = 3;
+    string delegate_bip_value = 4;
+}
+message AddressResponse {
+    repeated AddressBalance balance = 1;
+    repeated AddressDelegatedBalance delegated = 3;
+    repeated AddressBalance total = 4;
+    uint64 transaction_count = 2;
+    string bip_value = 5;
+    uint64 locked_stake_until_block = 7;
+    Multisig multisig = 6;
+}
+message Multisig {
+    uint64 threshold = 1;
+    repeated uint64 weights = 2;
+    repeated string addresses = 3;
+}
+
+message AddressesRequest {
+    repeated string addresses = 1;
+    uint64 height = 2;
+    bool delegated = 4;
+}
+message AddressesResponse {
+    message Result {
+        repeated AddressBalance balance = 2;
+        // Filled in when request delegated
+        repeated AddressDelegatedBalance delegated = 6;
+        // Sum of balance and delegated by coins. Filled in when request delegated
+        repeated AddressBalance total = 4;
+        uint64 transaction_count = 3;
+        string bip_value = 5;
+        uint64 locked_stake_until_block = 7;
+        Multisig multisig = 8;
+    }
+    map<string, Result> addresses = 3;
+}
+
+message CandidateRequest {
+    // Public key of a candidate
+    string public_key = 1;
+    // Blockchain state height for the current request. Optional, the last default state of the node is used
+    uint64 height = 2;
+    // Do not display a list of steaks. Note: used_slots, uniq_users, min_stake will be filled
+    bool not_show_stakes = 4;
+}
+message CandidateResponse {
+    uint64 id = 14;
+    // Address where validator’s rewards go to.
+    string reward_address = 1;
+    // Address that allows one to start the candidate by sending the SetCandidateOnline transaction or stop it by sending the SetCandidateOffline transaction. It also enables the owner to edit the node by sending EditCandidate.
+    string owner_address = 10;
+    // Address that allows one to start the candidate by sending the SetCandidateOnline transaction or stop it by sending the SetCandidateOffline transaction.
+    string control_address = 11;
+    // Total stake of a candidate
+    string total_stake = 2;
+    // Public key of a candidate
+    string public_key = 3;
+    // Commission (from 0 to 100) from rewards which delegators will pay to validator
+    uint64 commission = 4;
+    // Number of occupied steak slots. Note: filled in when request includes_stakes
+    google.protobuf.UInt64Value used_slots = 7;
+    // Number of unique wallets in steaks. Note: filled in when request includes_stakes
+    google.protobuf.UInt64Value uniq_users = 8;
+    // Smallest steak size. Note: filled in when request includes_stakes
+    google.protobuf.StringValue min_stake = 9;
+    message Stake {
+        string owner = 1;
+        Coin coin = 2;
+        string value = 3;
+        string bip_value = 4;
+    }
+    // List of stakes. Note: filled in when request includes_stakes
+    repeated Stake stakes = 5;
+    // Candidate status. Available values: offline = 1, online = 2
+    uint64 status = 6;
+    // Is a validator at the current height
+    bool validator = 12;
+    uint64 jailed_until = 13;
+}
+
+message CandidatesRequest {
+    // Blockchain state height for the current request. Optional, the last default state of the node is used
+    uint64 height = 1;
+    // Calculate field values used_slots, uniq_users, min_stake
+    bool include_stakes = 2;
+    // Do not display the list of stakes, the include_stakes flag is also required to display. Note: used_slots, uniq_users, min_stake will still be filled if include_stakes flag is used
+    bool not_show_stakes = 4;
+    enum CandidateStatus {
+        all = 0;
+        off = 1;
+        on = 2;
+        validator = 3;
+    }
+    CandidateStatus status = 3;
+}
+message CandidatesResponse {
+    repeated CandidateResponse candidates = 3;
+}
+
+message CoinIdRequest {
+    uint64 height = 1;
+    uint64 id = 2;
+}
+message CoinInfoRequest {
+    uint64 height = 1;
+    string symbol = 2;
+}
+message CoinInfoResponse {
+    uint64 id = 6;
+    string name = 1;
+    string symbol = 2;
+    string volume = 3;
+    uint64 crr = 4;
+    string reserve_balance = 5;
+    string max_supply = 8;
+    google.protobuf.StringValue owner_address = 7;
+    bool mintable = 9;
+    bool burnable = 10;
+}
+
+message SendTransactionResponse {
+    uint64 code = 1;
+    string log = 3;
+    string hash = 4;
+}
+message SendTransactionRequest {
+    string tx = 1;
+}
+
+message TransactionResponse {
+    string hash = 1;
+    string raw_tx = 2;
+    uint64 height = 3;
+    uint64 index = 4;
+    string from = 5;
+    uint64 nonce = 6;
+    uint64 gas = 7;
+    uint64 gas_price = 8;
+    Coin gas_coin = 9;
+    string type_hex = 17;
+    enum Type {
+        None = 0;
+        Send = 1;
+        SellCoin = 2;
+        SellAllCoin = 3;
+        BuyCoin = 4;
+        CreateCoin = 5;
+        DeclareCandidacy = 6;
+        Delegate = 7;
+        Unbond = 8;
+        RedeemCheck = 9;
+        SetCandidateOnline = 10;
+        SetCandidateOffline = 11;
+        CreateMultisig = 12;
+        Multisend = 13;
+        EditCandidate = 14;
+        SetHaltBlock = 15;
+        RecreateCoin = 16;
+        EditCoinOwner = 17;
+        EditMultisig = 18;
+        PriceVote = 19;
+        EditCandidatePublicKey = 20;
+        AddLiquidity = 21;
+        RemoveLiquidity = 22;
+        SellSwapPool = 23;
+        BuySwapPool = 24;
+        SellAllSwapPool = 25;
+        EditCommissionCandidate = 26;
+        MoveStake = 27;
+        MintToken = 28;
+        BurnToken = 29;
+        CreateToken = 30;
+        RecreateToken = 31;
+        VoteCommission = 32;
+        VoteUpdate = 33;
+        CreateSwapPool = 34;
+        AddLimitOrder = 35;
+        RemoveLimitOrder = 36;
+        TypeLockStake = 37;
+        TypeLock = 38;
+    }
+    //    string type_name = 18;
+    uint64 type = 10;
+    google.protobuf.Any data = 11;
+    bytes payload = 12;
+    bytes service_data = 16;
+    map<string, string> tags = 13;
+    uint64 code = 14;
+    string log = 15;
+}
+message TransactionRequest {
+    string hash = 1;
+}
+
+message TransactionsResponse {
+    repeated TransactionResponse transactions = 3;
+}
+message TransactionsRequest {
+    string query = 1;
+    int32 page = 2;
+    int32 per_page = 3;
+}
+
+
+enum SwapFrom {
+    optimal = 0;
+    bancor = 1;
+    pool = 2;
+}
+
+message EstimateCoinBuyRequest {
+    oneof buy {
+        uint64 coin_id_to_buy = 1;
+        string coin_to_buy = 5;
+    }
+    oneof sell {
+        uint64 coin_id_to_sell = 2;
+        string coin_to_sell = 6;
+    }
+    string value_to_buy = 3;
+    uint64 height = 4;
+    oneof commission {
+        uint64 coin_id_commission = 9;
+        string coin_commission = 10;
+    }
+    SwapFrom swap_from = 8;
+    repeated uint64 route = 11;
+}
+message EstimateCoinBuyResponse {
+    string will_pay = 1;
+    string commission = 2;
+    SwapFrom swap_from = 3;
+}
+
+message EstimateCoinSellRequest {
+    oneof buy {
+        uint64 coin_id_to_buy = 1;
+        string coin_to_buy = 5;
+    }
+    oneof sell {
+        uint64 coin_id_to_sell = 2;
+        string coin_to_sell = 6;
+    }
+    string value_to_sell = 3;
+    uint64 height = 4;
+    oneof commission {
+        uint64 coin_id_commission = 9;
+        string coin_commission = 10;
+    }
+    SwapFrom swap_from = 8;
+    repeated uint64 route = 11;
+}
+message EstimateCoinSellResponse {
+    string will_get = 1;
+    string commission = 2;
+    SwapFrom swap_from = 3;
+}
+
+message EstimateCoinSellAllRequest {
+    oneof buy {
+        uint64 coin_id_to_buy = 1;
+        string coin_to_buy = 7;
+    }
+    oneof sell {
+        uint64 coin_id_to_sell = 2;
+        string coin_to_sell = 6;
+    }
+    string value_to_sell = 3;
+    uint64 gas_price = 4;
+    uint64 height = 5;
+    SwapFrom swap_from = 8;
+    repeated uint64 route = 11;
+}
+message EstimateCoinSellAllResponse {
+    string will_get = 1;
+    SwapFrom swap_from = 2;
+}
+
+message EstimateTxCommissionRequest {
+    string tx = 1;
+    uint64 height = 2;
+}
+message EstimateTxCommissionResponse {
+    string commission = 1;
+}
+
+message EventsRequest {
+    uint64 height = 1;
+    // Array of public keys of validators and wallet addresses of delegators for filtering
+    repeated string search = 2;
+}
+message EventsResponse {
+    repeated google.protobuf.Struct events = 1;
+}
+
+message MissedBlocksRequest {
+    string public_key = 1;
+    uint64 height = 2;
+}
+message MissedBlocksResponse {
+    string missed_blocks = 1;
+    int64 missed_blocks_count = 2;
+}
+
+message UnconfirmedTxsResponse {
+    uint64 transaction_count = 1;
+    uint64 total_transactions = 2;
+    uint64 total_bytes = 3;
+    repeated string transactions = 4;
+}
+message UnconfirmedTxsRequest {
+    int32 limit = 1;
+}
+
+message ValidatorsRequest {
+    uint64 height = 1;
+}
+message ValidatorsResponse {
+    message Result {
+        string public_key = 1;
+        uint64 voting_power = 2;
+    }
+    repeated Result validators = 3;
+}
+
+message SubscribeRequest {
+    string query = 1;
+}
+message SubscribeResponse {
+    string query = 1;
+    google.protobuf.Struct data = 2;
+    message Event {
+        string key = 1;
+        repeated string events = 2;
+    }
+    repeated Event events = 3;
+}
+
+message HaltsRequest {
+    uint64 height = 1;
+}
+message HaltsResponse {
+    repeated string public_keys = 1;
+}
+
+message FrozenRequest {
+    string address = 1;
+    google.protobuf.UInt64Value coin_id = 2;
+    uint64 height = 3;
+}
+message FrozenAllRequest {
+    uint64 start_height = 1;
+    uint64 end_height = 2;
+
+    uint64 height = 3;
+
+    repeated string addresses = 4;
+    repeated uint64 coin_ids = 5;
+}
+message FrozenResponse {
+    message Frozen {
+        uint64 height = 1;
+        string address = 2;
+        google.protobuf.StringValue candidate_key = 8;
+        Coin coin = 4;
+        string value = 5;
+        google.protobuf.StringValue move_to_candidate_key = 7;
+    }
+    repeated Frozen frozen = 1;
+}
+
+message WaitListRequest {
+    string public_key = 1;
+    string address = 2;
+    uint64 height = 3;
+}
+message WaitListResponse {
+    message Wait {
+        string public_key = 3;
+        Coin coin = 1;
+        string value = 2;
+    }
+    repeated Wait list = 1;
+}
+
+
+
+

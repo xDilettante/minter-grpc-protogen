@@ -1,0 +1,3 @@
+#!/bin/bash
+mkdir -p generated/python
+python3 -m grpc_tools.protoc -I=./proto --python_out=./generated/python --grpc_python_out=./generated/python proto/*.proto

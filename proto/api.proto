@@ -1,0 +1,141 @@
+syntax = "proto3";
+
+package api_pb;
+
+option java_multiple_files = true;
+
+option java_package = "dilettante.minter.node.grpc.client";
+
+import "google/protobuf/empty.proto";
+import "resources.proto";
+
+service ApiService {
+
+    // Subscribe returns a subscription for events by query. Only supported in WS and gRPC methods.
+    rpc Subscribe (SubscribeRequest) returns (stream SubscribeResponse) {}
+
+    // Halts returns the candidate votes for stopping the network at block.
+    rpc Halts (HaltsRequest) returns (HaltsResponse) {}
+
+    // Genesis returns genesis file.
+    rpc Genesis (google.protobuf.Empty) returns (GenesisResponse) {}
+
+    // MinGasPrice returns current min gas price.
+    rpc MinGasPrice (google.protobuf.Empty) returns (MinGasPriceResponse) {}
+
+    // NetInfo returns network info
+    rpc NetInfo (google.protobuf.Empty) returns (NetInfoResponse) {}
+
+    // Status returns node status including pubkey, latest block.
+    rpc Status (google.protobuf.Empty) returns (StatusResponse) {}
+
+    // Address returns coins list, balance and transaction count of an address.
+    rpc Address (AddressRequest) returns (AddressResponse) {}
+
+    // Addresses returns list of addresses.
+    rpc Addresses (AddressesRequest) returns (AddressesResponse) {}
+
+    // Block returns block data at given height.
+    rpc Block (BlockRequest) returns (BlockResponse) {}
+
+    // Candidate returns candidate’s info by provided public key.
+    rpc Candidate (CandidateRequest) returns (CandidateResponse) {}
+
+    // Candidates returns list of candidates.
+    rpc Candidates (CandidatesRequest) returns (CandidatesResponse) {}
+
+    // CoinInfoById returns information about coin ID.
+    rpc CoinInfoById (CoinIdRequest) returns (CoinInfoResponse) {}
+
+    // CoinInfo returns information about coin symbol.
+    rpc CoinInfo (CoinInfoRequest) returns (CoinInfoResponse) {}
+
+    // EstimateCoinBuy returns estimate of buy coin transaction.
+    rpc EstimateCoinBuy (EstimateCoinBuyRequest) returns (EstimateCoinBuyResponse) {}
+
+    // EstimateCoinSell returns estimate of sell coin transaction.
+    rpc EstimateCoinSell (EstimateCoinSellRequest) returns (EstimateCoinSellResponse) {}
+
+    // EstimateCoinSellAll returns estimate of sell all coin transaction.
+    rpc EstimateCoinSellAll (EstimateCoinSellAllRequest) returns (EstimateCoinSellAllResponse) {}
+
+    // EstimateTxCommission returns estimate of transaction.
+    rpc EstimateTxCommission (EstimateTxCommissionRequest) returns (EstimateTxCommissionResponse) {}
+
+    // Events returns events at given height.
+    rpc Events (EventsRequest) returns (EventsResponse) {}
+
+    // MaxGasPrice returns current max gas.
+    rpc MaxGasPrice (MaxGasPriceRequest) returns (MaxGasPriceResponse) {}
+
+    // MissedBlocks returns missed blocks by validator public key.
+    rpc MissedBlocks (MissedBlocksRequest) returns (MissedBlocksResponse) {}
+
+    // SendTransaction returns the result of sending signed tx. To ensure that transaction was successfully committed to the blockchain, you need to find the transaction by the hash and ensure that the status code equals to 0.
+    rpc SendTransaction (SendTransactionRequest) returns (SendTransactionResponse) {}
+
+    // Transaction returns transaction info.
+    rpc Transaction (TransactionRequest) returns (TransactionResponse) {}
+
+    // Transactions returns transactions by query.
+    rpc Transactions (TransactionsRequest) returns (TransactionsResponse) {}
+
+    // UnconfirmedTxs returns unconfirmed transactions.
+    rpc UnconfirmedTxs (UnconfirmedTxsRequest) returns (UnconfirmedTxsResponse) {}
+
+    // Validators returns list of active validators.
+    rpc Validators (ValidatorsRequest) returns (ValidatorsResponse) {}
+
+    // Frozen returns frozen balance.
+    // Deprecated: Use FrozenAll instead.
+    rpc Frozen (FrozenRequest) returns (FrozenResponse) {}
+
+    // FrozenAll returns frozen balance.
+    rpc FrozenAll (FrozenAllRequest) returns (FrozenResponse) {}
+
+    // WaitList returns the list of address stakes in waitlist.
+    rpc WaitList (WaitListRequest) returns (WaitListResponse) {}
+
+    // TestBlock returns the list of example transactions in block. Available only testnet mode.
+    rpc TestBlock (google.protobuf.Empty) returns (BlockResponse) {}
+
+    // SwapPool returns total supply and reserves.
+    rpc SwapPool (SwapPoolRequest) returns (SwapPoolResponse) {}
+
+    // SwapPools returns list of all pools.
+    rpc SwapPools (SwapPoolsRequest) returns (SwapPoolsResponse) {}
+
+    // SwapPoolProvider returns reserves and liquidity balance of provider.
+    rpc SwapPoolProvider (SwapPoolProviderRequest) returns (SwapPoolResponse) {}
+
+    // PriceCommission returns commissions.
+    rpc PriceCommission (PriceCommissionRequest) returns (PriceCommissionResponse) {}
+
+    // VersionNetwork returns versions network.
+    rpc VersionNetwork (VersionNetworkRequest) returns (VersionNetworkResponse) {}
+
+    // CommissionVotes returns votes for update commissions.
+    rpc CommissionVotes (CommissionVotesRequest) returns (CommissionVotesResponse) {}
+
+    // UpdateVotes returns votes for update network.
+    rpc UpdateVotes (UpdateVotesRequest) returns (UpdateVotesResponse) {}
+
+    // Blocks returns blocks at given interval.
+    rpc Blocks (BlocksRequest) returns (BlocksResponse) {}
+
+
+    // LimitOrder returns order by ID.
+    rpc LimitOrder (LimitOrderRequest) returns (LimitOrderResponse) {}
+
+    // LimitOrdersOfPool returns sell orders for a pair of coins.
+    rpc LimitOrdersOfPool (LimitOrdersOfPoolRequest) returns (LimitOrdersOfPoolResponse) {}
+
+    // LimitOrders returns orders by IDs.
+    rpc LimitOrders (LimitOrdersRequest) returns (LimitOrdersResponse) {}
+
+    // BestTrade returns optimal exchange route.
+    rpc BestTrade (BestTradeRequest) returns (BestTradeResponse) {}
+}
+
+
+

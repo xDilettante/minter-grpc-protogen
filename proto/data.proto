@@ -1,0 +1,283 @@
+syntax = "proto3";
+
+package api_pb;
+
+option java_multiple_files = true;
+
+option java_package = "dilettante.minter.node.grpc.client";
+
+import "resources.proto";
+
+message SendData {
+    Coin coin = 1;
+    string to = 2;
+    string value = 3;
+}
+
+message SellCoinData {
+    Coin coin_to_sell = 1;
+    string value_to_sell = 2;
+    Coin coin_to_buy = 3;
+    string minimum_value_to_buy = 4;
+}
+
+message SellAllCoinData {
+    Coin coin_to_sell = 1;
+    Coin coin_to_buy = 2;
+    string minimum_value_to_buy = 3;
+}
+
+message BuyCoinData {
+    Coin coin_to_buy = 1;
+    string value_to_buy = 2;
+    Coin coin_to_sell = 3;
+    string maximum_value_to_sell = 4;
+}
+
+message CreateCoinData {
+    string name = 1;
+    string symbol = 2;
+    string initial_amount = 3;
+    string initial_reserve = 4;
+    uint64 constant_reserve_ratio = 5;
+    string max_supply = 6;
+}
+
+message DeclareCandidacyData {
+    string address = 1;
+    string pub_key = 2;
+    uint64 commission = 3;
+    Coin coin = 4;
+    string stake = 5;
+}
+
+message DelegateData {
+    string pub_key = 1;
+    Coin coin = 2;
+    string value = 3;
+}
+
+message UnbondData {
+    string pub_key = 1;
+    Coin coin = 2;
+    string value = 3;
+}
+
+message RedeemCheckData {
+    string raw_check = 1;
+    string proof = 2;
+}
+
+message SetCandidateOnData {
+    string pub_key = 1;
+}
+
+message SetCandidateOffData {
+    string pub_key = 1;
+}
+
+message CreateMultisigData {
+    uint64 threshold = 1;
+    repeated uint64 weights = 2;
+    repeated string addresses = 3;
+}
+
+message MultiSendData {
+    repeated SendData list = 1;
+}
+
+message EditCandidateData {
+    string pub_key = 1;
+    string reward_address = 3;
+    string owner_address = 4;
+    string control_address = 5;
+}
+
+message SetHaltBlockData {
+    string pub_key = 1;
+    uint64 height = 2;
+}
+
+message RecreateCoinData {
+    string name = 1;
+    string symbol = 2;
+    string initial_amount = 3;
+    string initial_reserve = 4;
+    uint64 constant_reserve_ratio = 5;
+    string max_supply = 6;
+}
+
+message EditCoinOwnerData {
+    string symbol = 1;
+    string new_owner = 2;
+}
+
+message EditMultisigData {
+    uint64 threshold = 1;
+    repeated uint64 weights = 2;
+    repeated string addresses = 3;
+}
+
+message EditCandidatePublicKeyData {
+    string pub_key = 1;
+    string new_pub_key = 2;
+}
+
+message CreateSwapPoolData {
+    Coin coin0 = 1;
+    Coin coin1 = 2;
+    string volume0 = 3;
+    string volume1 = 4;
+}
+
+message AddLiquidityData {
+    Coin coin0 = 1;
+    Coin coin1 = 2;
+    string volume0 = 3;
+    string maximum_volume1 = 4;
+}
+
+message RemoveLiquidityData {
+    Coin coin0 = 1;
+    Coin coin1 = 2;
+    string liquidity = 3;
+    string minimum_volume0 = 4;
+    string minimum_volume1 = 5;
+}
+
+message SellSwapPoolData {
+    repeated Coin coins = 1;
+    string value_to_sell = 2;
+    string minimum_value_to_buy = 4;
+}
+
+message SellAllSwapPoolData {
+    repeated Coin coins = 1;
+    string minimum_value_to_buy = 3;
+}
+
+message BuySwapPoolData {
+    repeated Coin coins = 1;
+    string value_to_buy = 2;
+    string maximum_value_to_sell = 4;
+}
+
+message EditCandidateCommission {
+    string pub_key = 1;
+    uint64 commission = 2;
+}
+
+message MintTokenData {
+    Coin coin = 1;
+    string value = 2;
+}
+
+message BurnTokenData {
+    Coin coin = 1;
+    string value = 2;
+}
+
+message CreateTokenData {
+    string name = 1;
+    string symbol = 2;
+    string initial_amount = 3;
+    string max_supply = 4;
+    bool mintable = 5;
+    bool burnable = 6;
+}
+
+message RecreateTokenData {
+    string name = 1;
+    string symbol = 2;
+    string initial_amount = 3;
+    string max_supply = 4;
+    bool mintable = 5;
+    bool burnable = 6;
+}
+
+message VoteCommissionData {
+    string pub_key = 1;
+    uint64 height = 2;
+    Coin coin = 3;
+    string payload_byte = 4;
+    string send = 5;
+    string buy_bancor = 38;
+    string sell_bancor = 39;
+    string sell_all_bancor = 40;
+    string buy_pool_base = 41;
+    string buy_pool_delta = 53;
+    string sell_pool_base = 42;
+    string sell_pool_delta = 54;
+    string sell_all_pool_base = 43;
+    string sell_all_pool_delta = 55;
+    string create_ticker3 = 7;
+    string create_ticker4 = 8;
+    string create_ticker5 = 9;
+    string create_ticker6 = 10;
+    string create_ticker7_10 = 11;
+    string create_coin = 34;
+    string create_token = 35;
+    string recreate_coin = 36;
+    string recreate_token = 37;
+    string declare_candidacy = 13;
+    string delegate = 14;
+    string unbond = 15;
+    string redeem_check = 16;
+    string set_candidate_on = 44;
+    string set_candidate_off = 45;
+    string create_multisig = 18;
+    string multisend_base = 51;
+    string multisend_delta = 52;
+    string edit_candidate = 20;
+    string set_halt_block = 21;
+    string edit_ticker_owner = 22;
+    string edit_multisig = 23;
+    string edit_candidate_public_key = 25;
+    string create_swap_pool = 48;
+    string add_liquidity = 49;
+    string remove_liquidity = 50;
+    string edit_candidate_commission = 28;
+    string mint_token = 46;
+    string burn_token = 47;
+    string vote_commission = 31;
+    string vote_update = 32;
+    string failed_tx = 56;
+    string add_limit_order = 57;
+    string remove_limit_order = 58;
+    string move_stake = 59;
+    string lock_stake = 60;
+    string lock = 61;
+}
+
+message VoteUpdateData {
+    string pub_key = 1;
+    uint64 height = 2;
+    string version = 3;
+}
+
+message AddLimitOrderData {
+    Coin coin_to_sell = 1;
+    string value_to_sell = 2;
+    Coin coin_to_buy = 3;
+    string value_to_buy = 4;
+}
+
+message RemoveLimitOrderData {
+    uint64 id = 1;
+}
+
+message MoveStakeData {
+    string from_pub_key = 1;
+    string to_pub_key = 4;
+    Coin coin = 2;
+    string value = 3;
+}
+
+message LockStakeData {
+}
+
+message LockData {
+    uint64 due_block = 1;
+    Coin coin = 2;
+    string value = 3;
+}

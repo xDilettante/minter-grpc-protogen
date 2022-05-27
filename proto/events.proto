@@ -1,0 +1,134 @@
+syntax = "proto3";
+
+package api_pb;
+
+option java_multiple_files = true;
+
+option java_package = "dilettante.minter.node.grpc.client";
+
+message JailEvent {
+    string validator_pub_key = 1;
+    uint64 jailed_until = 2;
+}
+
+message RemoveCandidateEvent {
+    string candidate_pub_key = 1;
+}
+
+message RewardEvent {
+    enum Role {
+        Validator = 0;
+        Delegator = 1;
+        DAO = 2;
+        Developers = 3;
+    }
+    Role role = 1;
+    string address = 2;
+    string amount = 3;
+    string validator_pub_key = 4;
+    // coin for which the delegator received the reward
+    uint64 for_coin = 6;
+}
+
+message SlashEvent {
+    string address = 1;
+    string amount = 2;
+    uint64 coin = 3;
+    string validator_pub_key = 4;
+}
+
+message UnbondEvent {
+    string address = 1;
+    string amount = 2;
+    uint64 coin = 3;
+    string validator_pub_key = 4;
+}
+
+message StakeKickEvent {
+    string address = 1;
+    string amount = 2;
+    uint64 coin = 3;
+    string validator_pub_key = 4;
+}
+
+message UpdateNetworkEvent {
+    string version = 1;
+}
+
+message UpdateCommissionsEvent {
+    uint64 coin = 3;
+    string payload_byte = 4;
+    string send = 5;
+    string buy_bancor = 38;
+    string sell_bancor = 39;
+    string sell_all_bancor = 40;
+    string buy_pool_base = 41;
+    string buy_pool_delta = 53;
+    string sell_pool_base = 42;
+    string sell_pool_delta = 54;
+    string sell_all_pool_base = 43;
+    string sell_all_pool_delta = 55;
+    string create_ticker3 = 7;
+    string create_ticker4 = 8;
+    string create_ticker5 = 9;
+    string create_ticker6 = 10;
+    string create_ticker7_10 = 11;
+    string create_coin = 34;
+    string create_token = 35;
+    string recreate_coin = 36;
+    string recreate_token = 37;
+    string declare_candidacy = 13;
+    string delegate = 14;
+    string unbond = 15;
+    string redeem_check = 16;
+    string set_candidate_on = 44;
+    string set_candidate_off = 45;
+    string create_multisig = 18;
+    string multisend_base = 51;
+    string multisend_delta = 52;
+    string edit_candidate = 20;
+    string set_halt_block = 21;
+    string edit_ticker_owner = 22;
+    string edit_multisig = 23;
+    string edit_candidate_public_key = 25;
+    string create_swap_pool = 48;
+    string add_liquidity = 49;
+    string remove_liquidity = 50;
+    string edit_candidate_commission = 28;
+    string mint_token = 46;
+    string burn_token = 47;
+    string vote_commission = 31;
+    string vote_update = 32;
+    string failed_tx = 56;
+    string add_limit_order = 57;
+    string remove_limit_order = 58;
+    string move_stake = 59;
+    string lock_stake = 60;
+    string lock = 61;
+}
+
+message OrderExpiredEvent {
+    uint64 id = 1;
+    string address = 2;
+    uint64 coin = 3;
+    string amount = 4;
+}
+
+message UpdatedBlockRewardEvent {
+    string value = 1;
+    string value_locked_stake_rewards = 2;
+}
+
+message StakeMoveEvent {
+    string address = 1;
+    string amount = 2;
+    uint64 coin = 3;
+    string candidate_pub_key = 4;
+    string to_candidate_pub_key = 5;
+}
+
+message UnlockEvent {
+    string address = 1;
+    string amount = 2;
+    uint64 coin = 3;
+}
