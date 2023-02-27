@@ -32,13 +32,4 @@ pip install grpcio grpcio-tools
 
 Сгенерированные фалы с кодом будут в - `/generated/python`
 
-## Поддержать автора:
-#### Minter Validator - SafeMinter:
-```
-Mp7771ad434bd6df3519ee5bd5331e66815263a3d8afbdd6768003ff7f790db6bc
-```
-#### Minter Address:
-```
-Mx88e1b5bb28953e9bedfced88af32b09f8e255eda
-```
 
